@@ -3,7 +3,7 @@
 namespace OmekaTestHelper\Controller;
 
 use Omeka\Test\AbstractHttpControllerTestCase;
-
+use Zend\Http\Request as HttpRequest;
 abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
 {
     public function postDispatch($url, $data)

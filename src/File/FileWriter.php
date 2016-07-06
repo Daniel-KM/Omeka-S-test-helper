@@ -1,5 +1,5 @@
 <?php
-namespace Omeka\File;
+namespace OmekaTestHelper\File;
 
 class FileWriter {
     public function putContents($path, $contents) {

@@ -1,5 +1,5 @@
 <?php
-namespace OmekaTest\File\Store;
+namespace OmekaTestHelper\File\Store;
 
 use Omeka\File\Exception;
 use Zend\Log\Logger;
@@ -9,7 +9,7 @@ use Zend\Log\Logger;
  */
 class LocalStore implements StoreInterface
 {
-    use \OmekaTest\File\StaticFileWriterTrait;
+    use \OmekaTestHelper\File\StaticFileWriterTrait;
     /**
      * Local base path.
      *

@@ -1,5 +1,5 @@
 <?php
-namespace OmekaTest\File;
+namespace OmekaTestHelper\File;
 
 trait StaticFileWriterTrait {
   protected static $filewriter;
