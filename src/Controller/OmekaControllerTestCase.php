@@ -6,7 +6,7 @@ use Omeka\Test\AbstractHttpControllerTestCase;
 use Zend\Http\Request as HttpRequest;
 abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
 {
-    public function postDispatch($url, $data)
+    protected function postDispatch($url, $data)
     {
         return $this->dispatch($url, HttpRequest::METHOD_POST, $data);
     }
@@ -26,6 +26,11 @@ abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
         return $this->getServiceLocator()->get('Omeka\ApiManager');
     }
 
+    protected function getEntityManager()
+    {
+        return $this->getServiceLocator()->get('Omeka\EntityManager');
+    }
+
     protected function login($email, $password)
     {
         $serviceLocator = $this->getServiceLocator();
@@ -41,24 +46,29 @@ abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
         $this->login('admin@example.com', 'root');
     }
 
-
-    public function persistAndSave($entity)
+    protected function logout()
     {
-      $em= $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
-      $em->persist($entity);
-      $em->flush();
+        $serviceLocator = $this->getServiceLocator();
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+        $auth->clearIdentity();
     }
 
-
-    public function cleanTable($table_name) {
-      $this->getApplicationServiceLocator()->get('Omeka\Connection')->exec('DELETE FROM '.$table_name);
-    }
-
-    public function setSettings($id,$value)
+    protected function persistAndSave($entity)
     {
-      $settings = $this->getApplicationServiceLocator()->get('Omeka\Settings');
-      $settings->set($id,$value);
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $em->persist($entity);
+        $em->flush();
     }
 
+    protected function cleanTable($table_name)
+    {
+        $connection = $this->getServiceLocator()->get('Omeka\Connection');
+        $connection->exec('DELETE FROM ' . $table_name);
+    }
 
+    protected function setSettings($id, $value)
+    {
+        $settings = $this->getServiceLocator()->get('Omeka\Settings');
+        $settings->set($id, $value);
+    }
 }
