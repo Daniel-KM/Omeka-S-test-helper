@@ -40,4 +40,25 @@ abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
     {
         $this->login('admin@example.com', 'root');
     }
+
+
+    public function persistAndSave($entity)
+    {
+      $em= $this->getApplicationServiceLocator()->get('Omeka\EntityManager');
+      $em->persist($entity);
+      $em->flush();
+    }
+
+
+    public function cleanTable($table_name) {
+      $this->getApplicationServiceLocator()->get('Omeka\Connection')->exec('DELETE FROM '.$table_name);
+    }
+
+    public function setSettings($id,$value)
+    {
+      $settings = $this->getApplicationServiceLocator()->get('Omeka\Settings');
+      $settings->set($id,$value);
+    }
+
+
 }

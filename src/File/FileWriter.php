@@ -38,4 +38,9 @@ class FileWriter {
     public function chmod($path, $permission) {
         return chmod($path, $permission);
     }
+
+    public function glob($pattern, $flags = 0) {
+        return glob($pattern, $flags);
+    }
+
 }

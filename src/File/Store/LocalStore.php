@@ -3,6 +3,7 @@ namespace OmekaTestHelper\File\Store;
 
 use Omeka\File\Exception;
 use Zend\Log\Logger;
+use Omeka\File\Store\StoreInterface;
 
 /**
  * Local filesystem file store
