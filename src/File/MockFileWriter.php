@@ -42,7 +42,7 @@ class MockFileWriter {
     public function glob($pattern, $flag=0) {
         $file=str_replace('{.*,.,\,,}','.png',$pattern);
         echo 'file = '.$file.'\n';
-        var_dump($files);
+        var_dump($this->files);
 
         return $this->fileExists($file);
     }
