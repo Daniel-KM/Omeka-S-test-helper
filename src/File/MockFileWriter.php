@@ -11,10 +11,6 @@ class MockFileWriter {
         return true;
     }
 
-    public function addFile($path) {
-        $this->files[]=$path;
-    }
-
     public function fileExists($path) {
         if (in_array($path,$this->files))
             return true;
@@ -26,6 +22,10 @@ class MockFileWriter {
     }
 
     public function chmod($path, $permission) {
+        return true;
+    }
+
+    public function putContents($path, $contents) {
         return true;
     }
 
@@ -44,4 +44,9 @@ class MockFileWriter {
         $file=str_replace('{.*,.,\,,}','.png',$pattern);
         return $this->fileExists($file);
     }
+
+    public function addFile($path) {
+        $this->files[]=$path;
+    }
+
 }
