@@ -4,6 +4,7 @@ namespace OmekaTestHelper\Controller;
 
 use Omeka\Test\AbstractHttpControllerTestCase;
 use Zend\Http\Request as HttpRequest;
+
 abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
 {
     protected function postDispatch($url, $data)
@@ -24,6 +25,11 @@ abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
     protected function api()
     {
         return $this->getServiceLocator()->get('Omeka\ApiManager');
+    }
+
+    protected function settings()
+    {
+        return $this->getServiceLocator()->get('Omeka\Settings');
     }
 
     protected function getEntityManager()
@@ -53,6 +59,26 @@ abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
         $auth->clearIdentity();
     }
 
+    protected function urlFromRoute($name = null, $params = [], $options = [], $reuseMatchedParams = false)
+    {
+        $url = $this->getServiceLocator()->get('ViewHelperManager')->get('url');
+
+        return $url($name, $params, $options, $reuseMatchedParams);
+    }
+
+    protected function moduleConfigureUrl($id)
+    {
+        $params = [
+            'controller' => 'module',
+            'action' => 'configure',
+        ];
+        $options = [
+            'query' => ['id' => $id],
+        ];
+
+        return $this->urlFromRoute('admin/default', $params, $options);
+    }
+
     protected function persistAndSave($entity)
     {
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
@@ -68,7 +94,6 @@ abstract class OmekaControllerTestCase extends AbstractHttpControllerTestCase
 
     protected function setSettings($id, $value)
     {
-        $settings = $this->getServiceLocator()->get('Omeka\Settings');
-        $settings->set($id, $value);
+        $this->settings()->set($id, $value);
     }
 }
